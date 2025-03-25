@@ -1,60 +1,49 @@
-// Eliminar márgenes predeterminados del body para usar todo el ancho de la pantalla
+// Eliminar márgenes predeterminados
 document.body.style.margin = '0';
 
-// Generar o recuperar el id del usuario para identificar mensajes propios
+// Generar id del usuario 
 let currentUser = localStorage.getItem('currentUser');
 if (!currentUser) {
   currentUser = Math.random().toString(36).substring(2, 10);
   localStorage.setItem('currentUser', currentUser);
 }
 
-// Variable global para el tema actual (light u oscuro)
+// Variable global para el tema actual 
 let currentTheme = localStorage.getItem('theme') || 'light';
 
-// ==================================================
-// FUNCIÓN PARA APLICAR EL TEMA (CLARO / OSCURO)
-// ==================================================
+// Funcion para aplicar tema
 function applyTheme(theme) {
   if (theme === 'dark') {
-    // Body
+
     document.body.style.backgroundColor = '#404040';
     document.body.style.color = '#f0f0f0';
-
-    // Encabezado en modo oscuro: fondo negro y degradado de negro a #404040
+    // Modo oscuro
     header.style.backgroundColor = '#000000';
     headerGradient.style.background = 'linear-gradient(to bottom, #000000, #404040)';
-
     // Contenedor de mensajes
     messagesContainer.style.backgroundColor = '#404040';
-
-    // Área de entrada (textbox y botón enviar)
+    // Textbox y botón enviar
     inputContainer.style.backgroundColor = '#404040';
-
     // Botón de enviar
     sendButton.style.backgroundColor = '#757575';
     sendButton.style.color = '#ffffff';
 
   } else {
-    // Modo claro: encabezado en #007934 y degradado transparente a blanco
-    document.body.style.backgroundColor = '#ffffff';
+    // Modo claro
+    document.body.style.backgroundColor = '#2ac16a';
     document.body.style.color = '#000000';
-
     header.style.backgroundColor = '#007934';
-    headerGradient.style.background = 'linear-gradient(to bottom, transparent, #ffffff)';
-
-    messagesContainer.style.backgroundColor = '#ffffff';
-    inputContainer.style.backgroundColor = '#007934';
-
+    headerGradient.style.background = 'linear-gradient(to bottom, transparent, #2ac16a)';
+    messagesContainer.style.backgroundColor = '#2ac16a';
+    inputContainer.style.backgroundColor = '#2ac16a';
     sendButton.style.backgroundColor = '#01b15e';
     sendButton.style.color = '#ffffff';
   }
 }
 
-// ==================================================
-// CREAR ELEMENTOS DEL CHAT
-// ==================================================
+// Elementos del chat
 
-// Contenedor principal (appContainer) que ocupa el 100% del ancho y alto
+// Contenedor principal 
 const appContainer = document.createElement('div');
 appContainer.style.display = 'flex';
 appContainer.style.flexDirection = 'column';
@@ -63,9 +52,7 @@ appContainer.style.width = '100%';
 appContainer.style.fontFamily = 'Arial, sans-serif';
 document.body.appendChild(appContainer);
 
-// =====================================
-// Encabezado (header)
-// =====================================
+// Encabezado 
 const header = document.createElement('div');
 header.style.position = 'relative';
 header.style.display = 'flex';
@@ -74,14 +61,14 @@ header.style.padding = '10px 0';  // Sin padding lateral para ocupar todo el anc
 header.style.height = '120px';
 header.style.width = '100%';
 
-// Contenedor central para el logo (centrado)
+// Contenedor central para el logo
 const headerCenter = document.createElement('div');
 headerCenter.style.flex = '1';
 headerCenter.style.display = 'flex';
 headerCenter.style.justifyContent = 'center';
 headerCenter.style.alignItems = 'center';
 
-// Logo en el centro
+// Logo centrado
 const logo = document.createElement('img');
 logo.src = 'img/logo.png';
 logo.alt = 'Logo';
@@ -91,7 +78,7 @@ logo.style.marginTop = '-20px'; // Elevar el logo un poco
 logo.style.fontwidth = '100px';
 headerCenter.appendChild(logo);
 
-// Contenedor para el botón de tema (a la derecha)
+// Contenedor para el botón de tema
 const headerRight = document.createElement('div');
 headerRight.style.width = '180px';
 headerRight.style.flexShrink = '0';
@@ -99,12 +86,12 @@ headerRight.style.display = 'flex';
 headerRight.style.justifyContent = 'center';
 headerRight.style.alignItems = 'center';
 
-// ===== Botón rectangular con texto e imagen =====
+// Botón rectangular
 const themeButton = document.createElement('button');
 themeButton.style.padding = '10px 20px';
-themeButton.style.borderRadius = '10px'; // Bordes redondeados
+themeButton.style.borderRadius = '10px'; 
 themeButton.style.border = 'none';
-themeButton.style.fontWeight = 'bold';   // Letra en negrita
+themeButton.style.fontWeight = 'bold';   
 themeButton.style.display = 'flex';
 themeButton.style.alignItems = 'center';
 themeButton.style.cursor = 'pointer';
@@ -112,9 +99,9 @@ themeButton.style.outline = 'none';
 
 // Texto dentro del botón
 const themeButtonText = document.createElement('span');
-themeButtonText.style.color = '#ffffff';  // Texto en blanco por defecto
+themeButtonText.style.color = '#ffffff';  
 
-// Imagen dentro del botón (más grande)
+// Imagen dentro del botón 
 const themeButtonImg = document.createElement('img');
 themeButtonImg.style.width = '30px';
 themeButtonImg.style.height = '30px';
@@ -124,17 +111,18 @@ themeButtonImg.style.objectFit = 'contain';
 // Función para actualizar el contenido y estilo del botón según el tema
 function updateThemeButton() {
   if (currentTheme === 'light') {
-    // Modo claro: el botón muestra "Oscuro" y la imagen de la luna
+    // Modo claro
     themeButtonText.innerText = 'Oscuro';
+    themeButtonText.style.fontSize = '20px';   
     themeButtonImg.src = 'img/luna.png';
-    themeButton.style.backgroundColor = '#00ab49'; // color verde
-    themeButtonText.style.color = '#ffffff';       // texto blanco
+    themeButton.style.backgroundColor = '#00ab49'; 
+    themeButtonText.style.color = '#ffffff';      
   } else {
-    // Modo oscuro: el botón muestra "Claro" y la imagen del sol
+    // Modo oscuro
     themeButtonText.innerText = 'Claro';
     themeButtonImg.src = 'img/sol.png';
-    themeButton.style.backgroundColor = '#9f9f9f'; // color gris
-    themeButtonText.style.color = '#ffffff';       // texto blanco
+    themeButton.style.backgroundColor = '#9f9f9f'; 
+    themeButtonText.style.color = '#ffffff';       
   }
 }
 
@@ -145,42 +133,37 @@ updateThemeButton();
 themeButton.appendChild(themeButtonText);
 themeButton.appendChild(themeButtonImg);
 
-// Añadir el botón al contenedor de la derecha, y éste al header
+// Añadir el botón al contenedor de la derecha y éste al header
 headerRight.appendChild(themeButton);
 header.appendChild(headerCenter);
 header.appendChild(headerRight);
 
-// Agregar degradado en la parte inferior del header
+// Agregar degradado 
 const headerGradient = document.createElement('div');
 headerGradient.style.position = 'absolute';
 headerGradient.style.bottom = '0';
 headerGradient.style.left = '0';
 headerGradient.style.width = '100%';
 headerGradient.style.height = '20px';
-// Valor inicial (modo claro); se actualizará en applyTheme
+// Valor inicial 
 headerGradient.style.background = 'linear-gradient(to bottom, transparent, #ffffff)';
 header.appendChild(headerGradient);
 
-// Finalmente, agregar el header al contenedor principal
+// Header al contenedor principal
 appContainer.appendChild(header);
 
-// =====================================
 // Contenedor de mensajes (cuerpo del chat)
-// =====================================
 const messagesContainer = document.createElement('div');
-messagesContainer.style.flex = '1';
+messagesContainer.style.flex = '0 0 67vh';
 messagesContainer.style.overflowY = 'auto';
 messagesContainer.style.padding = '10px';
 messagesContainer.style.boxSizing = 'border-box';
 messagesContainer.style.display = 'flex';
 messagesContainer.style.flexDirection = 'column';
-// Valor inicial (modo claro)
 messagesContainer.style.backgroundColor = '#ffffff';
 appContainer.appendChild(messagesContainer);
 
-// =====================================
-// Área de entrada (textbox y botón enviar)
-// =====================================
+// Área de entrada 
 const inputContainer = document.createElement('div');
 inputContainer.style.display = 'flex';
 inputContainer.style.padding = '10px';
@@ -191,49 +174,58 @@ inputContainer.style.width = '100%';
 inputContainer.style.backgroundColor = '#007934';
 appContainer.appendChild(inputContainer);
 
+
 const messageInput = document.createElement('input');
 messageInput.type = 'text';
 messageInput.placeholder = 'Escribe tu mensaje (máximo 140 caracteres)...';
 messageInput.maxLength = 140;
-// messageInput.style.flex = '1';
-messageInput.style.width = '1400px';
+messageInput.style.width = '1370px';
 messageInput.style.padding = '20px';
 messageInput.style.fontSize = '16px';
-// Se deja el fondo por defecto (blanco)
+messageInput.style.borderRadius = '8px';
 inputContainer.appendChild(messageInput);
+
 
 const sendButton = document.createElement('button');
 sendButton.innerText = 'Enviar';
-sendButton.style.marginLeft = '10px';
-sendButton.style.padding = '10px';
-// Valor inicial (modo claro)
-sendButton.style.backgroundColor = '#01b15e';
+sendButton.style.fontSize = '20px';   
+sendButton.style.fontWeight = 'bold';   
+sendButton.style.marginLeft = '15px';
+sendButton.style.width = '100px';
+sendButton.style.padding = '18px';
+sendButton.style.backgroundColor = '#0b6431';
 sendButton.style.color = '#ffffff';
 sendButton.style.border = 'none';
-sendButton.style.borderRadius = '5px';
+sendButton.style.borderRadius = '8px';
+sendButton.style.transition = 'transform 0.2s ease';
 inputContainer.appendChild(sendButton);
 
-// ==================================================
-// APLICAR EL TEMA (AHORA QUE LOS ELEMENTOS EXISTEN)
-// ==================================================
+
+sendButton.addEventListener('mouseenter', () => {
+  sendButton.style.transform = 'scale(1.05)';
+});
+sendButton.addEventListener('mouseleave', () => {
+  sendButton.style.transform = 'scale(1)';
+});
+
+
+// APLICAR EL TEMA 
 applyTheme(currentTheme);
 
-// ==================================================
 // EVENTOS Y FUNCIONALIDAD DEL CHAT
-// ==================================================
 
 // Alternar tema al hacer clic en el botón de tema
 themeButton.addEventListener('click', () => {
   currentTheme = (currentTheme === 'light') ? 'dark' : 'light';
   localStorage.setItem('theme', currentTheme);
-  updateThemeButton();       // Actualizar texto, color e imagen del botón
-  applyTheme(currentTheme);  // Aplicar estilos globales
+  updateThemeButton();       
+  applyTheme(currentTheme); 
 });
 
 // URL del API del chat
 const apiUrl = 'https://chat.devng.online/chats';
 
-// Función para animar la aparición de cada mensaje (fade in)
+// Animar la aparición de cada mensaje 
 function animateMessage(element) {
   element.style.opacity = 0;
   let last = +new Date();
@@ -249,7 +241,7 @@ function animateMessage(element) {
   tick();
 }
 
-// Función para crear el elemento de mensaje (burbuja de chat)
+// Función para crear burbuja de chat
 function createMessageElement(message) {
   const { id, text, user } = message;
   const messageEl = document.createElement('div');
