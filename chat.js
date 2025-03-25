@@ -81,42 +81,72 @@ headerCenter.style.display = 'flex';
 headerCenter.style.justifyContent = 'center';
 headerCenter.style.alignItems = 'center';
 
+// Logo en el centro
 const logo = document.createElement('img');
 logo.src = 'img/logo.png';
 logo.alt = 'Logo';
-logo.style.height = '80px';
+logo.style.height = '100px';
 logo.style.objectFit = 'contain';
-logo.style.marginTop = '-10px'; // Elevar el logo
+logo.style.marginTop = '-20px'; // Elevar el logo un poco
+logo.style.fontwidth = '100px';
 headerCenter.appendChild(logo);
 
 // Contenedor para el botón de tema (a la derecha)
 const headerRight = document.createElement('div');
-headerRight.style.width = '80px';
+headerRight.style.width = '180px';
 headerRight.style.flexShrink = '0';
 headerRight.style.display = 'flex';
 headerRight.style.justifyContent = 'center';
 headerRight.style.alignItems = 'center';
 
+// ===== Botón rectangular con texto e imagen =====
 const themeButton = document.createElement('button');
-themeButton.style.width = '50px';
-themeButton.style.height = '50px';
-themeButton.style.borderRadius = '50%';
+themeButton.style.padding = '10px 20px';
+themeButton.style.borderRadius = '10px'; // Bordes redondeados
 themeButton.style.border = 'none';
-themeButton.style.outline = 'none';
+themeButton.style.fontWeight = 'bold';   // Letra en negrita
+themeButton.style.display = 'flex';
+themeButton.style.alignItems = 'center';
 themeButton.style.cursor = 'pointer';
-themeButton.style.backgroundColor = 'transparent';
+themeButton.style.outline = 'none';
 
-const themeImage = document.createElement('img');
-themeImage.src = currentTheme === 'light' ? 'img/luna.png' : 'img/sol.png';
-themeImage.alt = 'Cambiar tema';
-themeImage.style.width = '100%';
-themeImage.style.height = '100%';
-themeImage.style.borderRadius = '50%';
+// Texto dentro del botón
+const themeButtonText = document.createElement('span');
+themeButtonText.style.color = '#ffffff';  // Texto en blanco por defecto
 
-themeButton.appendChild(themeImage);
+// Imagen dentro del botón (más grande)
+const themeButtonImg = document.createElement('img');
+themeButtonImg.style.width = '30px';
+themeButtonImg.style.height = '30px';
+themeButtonImg.style.marginLeft = '10px';
+themeButtonImg.style.objectFit = 'contain';
+
+// Función para actualizar el contenido y estilo del botón según el tema
+function updateThemeButton() {
+  if (currentTheme === 'light') {
+    // Modo claro: el botón muestra "Oscuro" y la imagen de la luna
+    themeButtonText.innerText = 'Oscuro';
+    themeButtonImg.src = 'img/luna.png';
+    themeButton.style.backgroundColor = '#00ab49'; // color verde
+    themeButtonText.style.color = '#ffffff';       // texto blanco
+  } else {
+    // Modo oscuro: el botón muestra "Claro" y la imagen del sol
+    themeButtonText.innerText = 'Claro';
+    themeButtonImg.src = 'img/sol.png';
+    themeButton.style.backgroundColor = '#9f9f9f'; // color gris
+    themeButtonText.style.color = '#ffffff';       // texto blanco
+  }
+}
+
+// Inicializa el contenido del botón según el tema actual
+updateThemeButton();
+
+// Añadir texto e imagen al botón
+themeButton.appendChild(themeButtonText);
+themeButton.appendChild(themeButtonImg);
+
+// Añadir el botón al contenedor de la derecha, y éste al header
 headerRight.appendChild(themeButton);
-
-// Agregar contenedores al header
 header.appendChild(headerCenter);
 header.appendChild(headerRight);
 
@@ -131,6 +161,7 @@ headerGradient.style.height = '20px';
 headerGradient.style.background = 'linear-gradient(to bottom, transparent, #ffffff)';
 header.appendChild(headerGradient);
 
+// Finalmente, agregar el header al contenedor principal
 appContainer.appendChild(header);
 
 // =====================================
@@ -164,8 +195,9 @@ const messageInput = document.createElement('input');
 messageInput.type = 'text';
 messageInput.placeholder = 'Escribe tu mensaje (máximo 140 caracteres)...';
 messageInput.maxLength = 140;
-messageInput.style.flex = '1';
-messageInput.style.padding = '10px';
+// messageInput.style.flex = '1';
+messageInput.style.width = '1400px';
+messageInput.style.padding = '20px';
 messageInput.style.fontSize = '16px';
 // Se deja el fondo por defecto (blanco)
 inputContainer.appendChild(messageInput);
@@ -192,10 +224,10 @@ applyTheme(currentTheme);
 
 // Alternar tema al hacer clic en el botón de tema
 themeButton.addEventListener('click', () => {
-  currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+  currentTheme = (currentTheme === 'light') ? 'dark' : 'light';
   localStorage.setItem('theme', currentTheme);
-  themeImage.src = currentTheme === 'light' ? 'img/luna.png' : 'img/sol.png';
-  applyTheme(currentTheme);
+  updateThemeButton();       // Actualizar texto, color e imagen del botón
+  applyTheme(currentTheme);  // Aplicar estilos globales
 });
 
 // URL del API del chat
